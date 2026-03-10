@@ -3,21 +3,39 @@ import os
 import sys
 import random
 
+
 # imports all the functions from the other files
 
 class Barista:
 
     def __init__(self, name, pay):
-        self.name = name
-        self.pay = pay
-        pay = 0
-        # initializes the Barista class with a name and pay, and sets pay to 0
+
         if not name:
             raise ValueError("Name cannot be empty")
+        if pay < 0:
+            raise ValueError("Pay cannot be negative")
+        # checks if the name is empty or if the pay is negative, and raises an error
+
+        self.name = name
+        self.pay = pay
+        self.pay = 0
+        # initializes the Barista class with a name and pay, and sets pay to 0
+
+class Novice(Barista):
+    def __init__(self, name, pay):
+        super().__init__(name, pay)
+        self.pay = 12.5
 
 
-        
+class Intermediate(Barista):
+    def __init__(self, name, pay):
+        super().__init__(name, pay)
+        self.pay = 14.5
 
+class Expert(Barista):
+    def __init__(self, name, pay):
+        super().__init__(name, pay)
+        self.pay = 17.5
 
 
 def main():
