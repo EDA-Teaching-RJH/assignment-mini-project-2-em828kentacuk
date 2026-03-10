@@ -37,6 +37,13 @@ class Expert(Barista):
         super().__init__(name, pay)
         self.pay = 17.5
 
+"""
+to run the script type into command terminal:
+    python3 project2.py add                 — Add a new barista to the system
+    python3 project2.py list                — List all baristas
+    python3 project2.py managers            — List all managers
+    python3 project2.py assign shifts       — Assign shifts to baristas and calculate their pay
+"""
 
 def main():
 
