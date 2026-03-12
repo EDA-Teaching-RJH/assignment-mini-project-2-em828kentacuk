@@ -12,30 +12,33 @@ class Barista:
 
         if not name:
             raise ValueError("Name cannot be empty")
-        if pay < 0:
-            raise ValueError("Pay cannot be negative")
-        # checks if the name is empty or if the pay is negative, and raises an error
-
         self.name = name
-        self.pay = pay
-        self.pay = 0
-        # initializes the Barista class with a name and pay, and sets pay to 0
 
 class Novice(Barista):
-    def __init__(self, name, pay):
-        super().__init__(name, pay)
-        self.pay = 12.5
+    pay = 12.5
+
+    def get_pay(self):
+        return self.pay
 
 
 class Intermediate(Barista):
-    def __init__(self, name, pay):
-        super().__init__(name, pay)
-        self.pay = 14.5
+    pay = 14.5
+
+    def get_pay(self):
+        return self.pay
 
 class Expert(Barista):
-    def __init__(self, name, pay):
-        super().__init__(name, pay)
-        self.pay = 17.5
+    pay = 17.5
+
+    def get_pay(self):
+        return self.pay
+
+
+class Manager:
+    def __init__(self, name):
+        if not name:
+            raise ValueError("Name cannot be empty")
+        self.name = name
 
 """
 to run the script type into command terminal:
@@ -47,13 +50,21 @@ to run the script type into command terminal:
 
 def main():
 
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 1:
         print("Please enter an argument")
         sys.exit()
 # tells user to enter an argument if they don't and then exits the program
     
-input = sys.argv[1].lower()
-# takes the first argument and converts it to lowercase
+input = sys.argv[1].lower().strip()
+# takes the first argument and converts it to lowercase and removes any leading or trailing whitespace
+
+if input == "add":
+    name = input("Enter the barista's name: ")
+    barista = Barista(name, 0)
+
+    print(f"Barista {barista.name} added with pay {barista.pay}")
+
+
 
 if __name__ == "__main__":
     main()
