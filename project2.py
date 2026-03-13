@@ -73,6 +73,18 @@ def save_manager(manager):
         writer = csv.writer(file)
         writer.writerow([manager.name, manager.get_pay()])
 
+def load_managers():
+    with open("staff.csv", "r") as file:
+        reader = csv.reader(file)
+        print("Managers:")
+        print("-----------------------")
+        for row in reader:
+            name = row[0]
+            pay = row[1]
+
+            print(f"Name = {name}  Pay = £{pay}/hr")
+
+
 #    to run the script type into command terminal:
 #    python3 project2.py add                 — Add a new barista to the system
 #    python3 project2.py list                — List all baristas
@@ -112,6 +124,8 @@ elif argument == "addm":
     name = input("Enter manager name: ")
     save_manager(Manager(name))
     print(f"Manager {name} added successfully.")
+elif argument == "managers":
+    load_managers()
 
 
 
