@@ -72,6 +72,18 @@ argument = sys.argv[1].lower().strip()
 if argument == "add":
         name = input("Enter the barista's name: ")
         barista = Barista(name)
+        level = input("Enter the barista's level (Novice, Intermediate, Expert): ").lower().strip()
+        if level == "novice":
+            barista = Novice(name)
+        elif level == "intermediate":
+            barista = Intermediate(name)
+        elif level == "expert":
+            barista = Expert(name)
+        else:
+            print("Invalid level. Please enter Novice, Intermediate, or Expert.")
+            sys.exit()
+        save_barista(barista)
+        print(f"Barista {name} added successfully.")
 
 
 
