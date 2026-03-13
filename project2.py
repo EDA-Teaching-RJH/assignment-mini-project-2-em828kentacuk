@@ -40,6 +40,9 @@ class Manager:
         if not name:
             raise ValueError("Name cannot be empty")
         self.name = name
+    pay = 27.5
+    def get_pay(self):
+        return self.pay
 
 #this function is to save the information to a csv file called workers.csv.
 def save_barista(barista):
@@ -64,13 +67,18 @@ def load_baristas():
 
  
             print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr")
-    
+
+def save_manager(manager):
+    with open("staff.csv", "a", newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([manager.name, manager.get_pay()])
 
 #    to run the script type into command terminal:
 #    python3 project2.py add                 — Add a new barista to the system
 #    python3 project2.py list                — List all baristas
+#    python3 project2.py addm                — Add a new manager to the system
 #    python3 project2.py managers            — List all managers
-#    python3 project2.py assign shifts       — Assign shifts to baristas and calculate their pay
+#    python3 project2.py shifts              — Assign shifts to baristas and calculate their pay
 
 
 def main():
@@ -100,6 +108,11 @@ if argument == "add":
         print(f"Barista {name} added successfully.")
 elif argument == "list":
     load_baristas()
+elif argument == "addm":
+    name = input("Enter manager name: ")
+    save_manager(Manager(name))
+    print(f"Manager {name} added successfully.")
+
 
 
 
