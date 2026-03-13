@@ -96,6 +96,15 @@ def assign_shifts():
             })
     shifts = ["Morning", "Afternoon", "Evening"]
 
+    schedules = {}
+    for worker in workers:
+        shift = random.choice(shifts)
+        schedules[worker["name"]] = shift
+    print("Shift Assignments:")
+    print("------------------")
+    for name, shift in schedules.items():
+        print(f"{name} is assigned to the {shift} shift.")
+
 
 
 
@@ -140,6 +149,8 @@ elif argument == "addm":
     print(f"Manager {name} added successfully.")
 elif argument == "managers":
     load_managers()
+elif argument == "shifts":
+    assign_shifts()
 
 
 
