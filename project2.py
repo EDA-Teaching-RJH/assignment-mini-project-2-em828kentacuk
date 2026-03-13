@@ -52,6 +52,20 @@ def save_barista(barista):
         elif isinstance(barista, Expert):
             writer.writerow([barista.name, "Expert", barista.get_pay()])
 
+def load_baristas():
+    with open("workers.csv", "r") as file:
+        reader = csv.reader(file)
+        print("Baristas in the system:")
+        print("-----------------------")
+        for row in reader:
+            name = row[0]
+            level = row[1]
+            pay = row[2]
+
+ 
+            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr")
+    
+
 #    to run the script type into command terminal:
 #    python3 project2.py add                 — Add a new barista to the system
 #    python3 project2.py list                — List all baristas
@@ -84,7 +98,8 @@ if argument == "add":
             sys.exit()
         save_barista(barista)
         print(f"Barista {name} added successfully.")
-
+elif argument == "list":
+    load_baristas()
 
 
 
