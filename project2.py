@@ -2,13 +2,14 @@ import re
 import os
 import sys
 import random
+import csv
 
 
 # imports all the functions from the other files
 
 class Barista:
 
-    def __init__(self, name, pay):
+    def __init__(self, name):
 
         if not name:
             raise ValueError("Name cannot be empty")
@@ -40,29 +41,39 @@ class Manager:
             raise ValueError("Name cannot be empty")
         self.name = name
 
-"""
-to run the script type into command terminal:
-    python3 project2.py add                 — Add a new barista to the system
-    python3 project2.py list                — List all baristas
-    python3 project2.py managers            — List all managers
-    python3 project2.py assign shifts       — Assign shifts to baristas and calculate their pay
-"""
+#this function is to save the information to a csv file called workers.csv.
+def save_barista(barista):
+    with open("workers.csv", "a", newline='') as file:
+        writer = csv.writer(file)
+        if isinstance(barista, Novice):
+            writer.writerow([barista.name, "Novice", barista.get_pay()])
+        elif isinstance(barista, Intermediate):
+            writer.writerow([barista.name, "Intermediate", barista.get_pay()])
+        elif isinstance(barista, Expert):
+            writer.writerow([barista.name, "Expert", barista.get_pay()])
+
+#    to run the script type into command terminal:
+#    python3 project2.py add                 — Add a new barista to the system
+#    python3 project2.py list                — List all baristas
+#    python3 project2.py managers            — List all managers
+#    python3 project2.py assign shifts       — Assign shifts to baristas and calculate their pay
+
 
 def main():
 
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         print("Please enter an argument")
         sys.exit()
 # tells user to enter an argument if they don't and then exits the program
     
-input = sys.argv[1].lower().strip()
+argument = sys.argv[1].lower().strip()
 # takes the first argument and converts it to lowercase and removes any leading or trailing whitespace
 
-if input == "add":
-    name = input("Enter the barista's name: ")
-    barista = Barista(name, 0)
+if argument == "add":
+        name = input("Enter the barista's name: ")
+        barista = Barista(name)
 
-    print(f"Barista {barista.name} added with pay {barista.pay}")
+
 
 
 
