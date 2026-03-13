@@ -61,9 +61,10 @@ def load_baristas():
         print("Baristas in the system:")
         print("-----------------------")
         for row in reader:
-            name = row[0]
-            level = row[1]
-            pay = row[2]
+            if len(row) >= 3:
+                name = row[0]
+                level = row[1]
+                pay = row[2]
 
  
             print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr")
@@ -90,10 +91,11 @@ def assign_shifts():
     with open("workers.csv", "r") as file:
         reader = csv.reader(file)
         for row in reader:
-            workers.append({
-                "name": row[0],
-                "pay": row[2]
-            })
+            if len(row) >= 3:
+                workers.append({
+                    "name": row[0],
+                    "pay": row[2]
+                })
     shifts = ["Morning", "Afternoon", "Evening"]
 
     schedules = {}
