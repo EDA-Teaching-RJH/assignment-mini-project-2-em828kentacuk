@@ -91,8 +91,8 @@ def assign_shifts():
         reader = csv.reader(file)
         for row in reader:
             workers.append({
-                "name": row[0]
-                "pay" : row[2]
+                "name": row[0],
+                "pay": row[2]
             })
     shifts = ["Morning", "Afternoon", "Evening"]
 
