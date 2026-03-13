@@ -84,6 +84,20 @@ def load_managers():
 
             print(f"Name = {name}  Pay = £{pay}/hr")
 
+def assign_shifts():
+    workers = []
+
+    with open("workers.csv", "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            workers.append({
+                "name": row[0]
+                "pay" : row[2]
+            })
+    shifts = ["Morning", "Afternoon", "Evening"]
+
+
+
 
 #    to run the script type into command terminal:
 #    python3 project2.py add                 — Add a new barista to the system
