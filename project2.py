@@ -1,4 +1,3 @@
-from multiprocessing import managers
 import re
 import os
 import sys
@@ -15,10 +14,11 @@ class Barista:
         if not name:
             raise ValueError("Name cannot be empty")
         self.name = name
-
+# ensures that the name of the barista is not empty and assigns it to the instance variable self.name
 class Novice(Barista):
     pay = 12.5
-
+# assigns the pay for a novice barista to 12.5
+# repeats the same process for the intermediate and expert baristas with different pay rates
     def get_pay(self):
         return self.pay
 
@@ -46,6 +46,7 @@ class Manager:
         return self.pay
 
 #this function is to save the information to a csv file called workers.csv.
+# saves the name and rank of the barista
 def save_barista(barista):
     with open("workers.csv", "a", newline='') as file:
         writer = csv.writer(file)
@@ -55,7 +56,8 @@ def save_barista(barista):
             writer.writerow([barista.name, "Intermediate", barista.get_pay()])
         elif isinstance(barista, Expert):
             writer.writerow([barista.name, "Expert", barista.get_pay()])
-
+# this displays the baristas onto the terminal window
+# opens a csv file and outputs the result for every row in the file onto the command line
 def load_baristas():
     with open("workers.csv", "r") as file:
         reader = csv.reader(file)
@@ -70,10 +72,15 @@ def load_baristas():
  
             print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr")
 
+#this function is to save the information to a csv file called staff.csv.
+# saves the name and rank of the manager in the same manner as before
+
 def save_manager(manager):
     with open("staff.csv", "a", newline='') as file:
         writer = csv.writer(file)
         writer.writerow([manager.name, manager.get_pay()])
+
+# this repeats the same process for loading baristas but with a new file
 
 def load_managers():
     with open("staff.csv", "r") as file:
@@ -86,10 +93,15 @@ def load_managers():
 
             print(f"Name = {name}  Pay = £{pay}/hr")
 
+# this assigns shifts every time the function is called
+# it starts by inilialising empty lists for workers and staff and a variable for cost
+
 def assign_shifts():
     workers = []
     staff = []
     cost = 0
+# it then opens the respective csv files, reads the data and appends it to the empty 
+# lists with the name and pay of each employee
 
     with open("staff.csv", "r") as file:
         reader = csv.reader(file)
@@ -107,11 +119,15 @@ def assign_shifts():
                     "name" : row[0],
                     "pay" : float(row[2])
                 })
-
+# validation check to ensure that there are enough staff to assign a shift, if not it raises a ValueError
+# in this case we need at least 4 workers and 1 manager to assign a shift
 
     if len(workers) < 4 or len(staff) < 1:
         raise ValueError("Not enough staff to assign a shift.")
     
+# selects 4 random employees and 1 random manager from their respective lists
+# it then calculates the total cost of the shift by summing the pay of the selected employees and adding the manager's pay
+
     selected_employees = random.sample(workers, 4)
     selected_manager = random.choice(staff)
 
@@ -119,6 +135,9 @@ def assign_shifts():
 
     shifts = ["Morning", "Afternoon", "Evening"]
     shift = random.choice(shifts)
+
+# lastly it prints out the details of the shift, including the shift time, manager
+# and total cost and the names of the employees working that shift
 
     print(f"Shift: {shift}")
     print(f"Manager: {selected_manager['name']}")
