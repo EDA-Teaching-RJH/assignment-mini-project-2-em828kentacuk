@@ -1,3 +1,4 @@
+from multiprocessing import managers
 import re
 import os
 import sys
@@ -87,25 +88,49 @@ def load_managers():
 
 def assign_shifts():
     workers = []
+    staff = []
+    cost = 0
+
+    with open("staff.csv", "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if len(row) >= 2:
+                staff.append({
+                    "name": row[0]
+                })
 
     with open("workers.csv", "r") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 3:
                 workers.append({
-                    "name": row[0],
-                    "pay": row[2]
+                    "name" : row[0],
+                    "pay" : float(row[2])
                 })
-    shifts = ["Morning", "Afternoon", "Evening"]
 
-    schedules = {}
-    for worker in workers:
-        shift = random.choice(shifts)
-        schedules[worker["name"]] = shift
-    print("Shift Assignments:")
-    print("------------------")
-    for name, shift in schedules.items():
-        print(f"{name} is assigned to the {shift} shift.")
+
+    if len(workers) < 4 or len(staff) < 1:
+        raise ValueError("Not enough staff to assign a shift.")
+    
+    selected_employees = random.sample(workers, 4)
+    selected_manager = random.choice(staff)
+
+    total_cost = sum(employee["pay"] for employee in selected_employees) + 27.5
+
+    shifts = ["Morning", "Afternoon", "Evening"]
+    shift = random.choice(shifts)
+
+    print(f"Shift: {shift}")
+    print(f"Manager: {selected_manager['name']}")
+    print(f"Total cost of shift: £{total_cost:.2f}")
+    print("Employees:")
+    for baristas in selected_employees:
+        print(f"- {baristas['name']}")
+    
+    
+
+
+
 
 
 
