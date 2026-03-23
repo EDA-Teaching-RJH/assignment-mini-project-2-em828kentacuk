@@ -9,14 +9,20 @@ import csv
 
 class Barista:
 
-    def __init__(self, name):
+    def __init__(self, name, email=None):
 
         if not name:
             raise ValueError("Name cannot be empty")
         self.name = name
+        email_pattern = r"[^@]+@[^@]+\.[^@]+"
+        if email and not re.match(email_pattern, email):
+            raise ValueError("Invalid email format")
+        self.email = email
 # ensures that the name of the barista is not empty and assigns it to the instance variable self.name
 class Novice(Barista):
     pay = 12.5
+    def __init__(self, name, email=None):
+        super().__init__(name, email)
 # assigns the pay for a novice barista to 12.5
 # repeats the same process for the intermediate and expert baristas with different pay rates
     def get_pay(self):
@@ -25,13 +31,15 @@ class Novice(Barista):
 
 class Intermediate(Barista):
     pay = 14.5
-
+    def __init__(self, name, email=None):
+        super().__init__(name, email)
     def get_pay(self):
         return self.pay
 
 class Expert(Barista):
     pay = 17.5
-
+    def __init__(self, name, email=None):
+        super().__init__(name, email)
     def get_pay(self):
         return self.pay
 
@@ -51,11 +59,12 @@ def save_barista(barista):
     with open("workers.csv", "a", newline='') as file:
         writer = csv.writer(file)
         if isinstance(barista, Novice):
-            writer.writerow([barista.name, "Novice", barista.get_pay()])
+            writer.writerow([barista.name, "Novice", barista.get_pay(), barista.email])
         elif isinstance(barista, Intermediate):
-            writer.writerow([barista.name, "Intermediate", barista.get_pay()])
+            writer.writerow([barista.name, "Intermediate", barista.get_pay(), barista.email])
         elif isinstance(barista, Expert):
-            writer.writerow([barista.name, "Expert", barista.get_pay()])
+            writer.writerow([barista.name, "Expert", barista.get_pay(), barista.email])
+
 # this displays the baristas onto the terminal window
 # opens a csv file and outputs the result for every row in the file onto the command line
 def load_baristas():
@@ -174,14 +183,15 @@ argument = sys.argv[1].lower().strip()
 
 if argument == "add":
         name = input("Enter the barista's name: ")
-        barista = Barista(name)
+        email = input("Enter the barista's email: ")
+        barista = Barista(name, email)
         level = input("Enter the barista's level (Novice, Intermediate, Expert): ").lower().strip()
         if level == "novice":
-            barista = Novice(name)
+            barista = Novice(name, email)
         elif level == "intermediate":
-            barista = Intermediate(name)
+            barista = Intermediate(name, email)
         elif level == "expert":
-            barista = Expert(name)
+            barista = Expert(name, email)
         else:
             print("Invalid level. Please enter Novice, Intermediate, or Expert.")
             sys.exit()
