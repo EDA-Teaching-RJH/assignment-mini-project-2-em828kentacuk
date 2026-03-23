@@ -9,7 +9,7 @@ import csv
 
 class Barista:
 
-    def __init__(self, name, email=None):
+    def __init__(self, name, email=None, tel=None):
 
         if not name:
             raise ValueError("Name cannot be empty")
@@ -18,11 +18,16 @@ class Barista:
         if email and not re.match(email_pattern, email):
             raise ValueError("Invalid email format")
         self.email = email
+        tel_num_pattern = r"^(?:\+44|0)7\d{9}$"
+        if tel and not re.match(tel_num_pattern, tel):
+            raise ValueError("Invalid telephone number format")
+        self.tel = tel
 # ensures that the name of the barista is not empty and assigns it to the instance variable self.name
+# ensures emails entered follow a defulat format, declines it if the email deviates from the format
 class Novice(Barista):
     pay = 12.5
-    def __init__(self, name, email=None):
-        super().__init__(name, email)
+    def __init__(self, name, email=None, tel=None):
+        super().__init__(name, email, tel)
 # assigns the pay for a novice barista to 12.5
 # repeats the same process for the intermediate and expert baristas with different pay rates
     def get_pay(self):
@@ -31,21 +36,21 @@ class Novice(Barista):
 
 class Intermediate(Barista):
     pay = 14.5
-    def __init__(self, name, email=None):
-        super().__init__(name, email)
+    def __init__(self, name, email=None, tel=None):
+        super().__init__(name, email, tel)
     def get_pay(self):
         return self.pay
 
 class Expert(Barista):
     pay = 17.5
-    def __init__(self, name, email=None):
-        super().__init__(name, email)
+    def __init__(self, name, email=None, tel=None):
+        super().__init__(name, email, tel)
     def get_pay(self):
         return self.pay
 
 
 class Manager:
-    def __init__(self, name):
+    def __init__(self, name,):
         if not name:
             raise ValueError("Name cannot be empty")
         self.name = name
@@ -59,11 +64,11 @@ def save_barista(barista):
     with open("workers.csv", "a", newline='') as file:
         writer = csv.writer(file)
         if isinstance(barista, Novice):
-            writer.writerow([barista.name, "Novice", barista.get_pay(), barista.email])
+            writer.writerow([barista.name, "Novice", barista.get_pay(), barista.email, barista.tel])
         elif isinstance(barista, Intermediate):
-            writer.writerow([barista.name, "Intermediate", barista.get_pay(), barista.email])
+            writer.writerow([barista.name, "Intermediate", barista.get_pay(), barista.email, barista.tel])
         elif isinstance(barista, Expert):
-            writer.writerow([barista.name, "Expert", barista.get_pay(), barista.email])
+            writer.writerow([barista.name, "Expert", barista.get_pay(), barista.email, barista.tel])
 
 # this displays the baristas onto the terminal window
 # opens a csv file and outputs the result for every row in the file onto the command line
@@ -78,9 +83,10 @@ def load_baristas():
                 level = row[1]
                 pay = row[2]
                 email = row[3]
+                tel = row[4]
 
  
-            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}")
+            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}  Telephone: {tel}")
 
 #this function is to save the information to a csv file called staff.csv.
 # saves the name and rank of the manager in the same manner as before
@@ -185,14 +191,15 @@ argument = sys.argv[1].lower().strip()
 if argument == "add":
         name = input("Enter the barista's name: ")
         email = input("Enter the barista's email: ")
-        barista = Barista(name, email)
+        tel = input("Enter the barista's telephone number: ")
+        barista = Barista(name, email, tel)
         level = input("Enter the barista's level (Novice, Intermediate, Expert): ").lower().strip()
         if level == "novice":
-            barista = Novice(name, email)
+            barista = Novice(name, email, tel)
         elif level == "intermediate":
-            barista = Intermediate(name, email)
+            barista = Intermediate(name, email, tel)
         elif level == "expert":
-            barista = Expert(name, email)
+            barista = Expert(name, email, tel)
         else:
             print("Invalid level. Please enter Novice, Intermediate, or Expert.")
             sys.exit()
