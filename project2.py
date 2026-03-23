@@ -77,9 +77,10 @@ def load_baristas():
                 name = row[0]
                 level = row[1]
                 pay = row[2]
+                email = row[3]
 
  
-            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr")
+            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}")
 
 #this function is to save the information to a csv file called staff.csv.
 # saves the name and rank of the manager in the same manner as before
