@@ -34,3 +34,9 @@ class TestBarista:
     def test_wrong_email_format(self):
         with pytest.raises(ValueError):
             Barista(name="Alice", email="alicegmail.com", tel="07123456789")
+    
+    def test_wrong_tel_format(self):
+        with pytest.raises(ValueError):
+            Barista(name="Alice", email="alice@gmail.com", tel="0712-345-6789")
+
+    
