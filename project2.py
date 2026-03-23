@@ -17,10 +17,14 @@ class Barista:
         email_pattern = r"[^@]+@[^@]+\.[^@]+"
         if email and not re.match(email_pattern, email):
             raise ValueError("Invalid email format")
+        elif not email:
+            raise ValueError("Email cannot be empty")
         self.email = email
         tel_num_pattern = r"^(?:\+44|0)7\d{9}$"
         if tel and not re.match(tel_num_pattern, tel):
             raise ValueError("Invalid telephone number format")
+        elif not tel:
+            raise ValueError("Telephone number cannot be empty")
         self.tel = tel
 # ensures that the name of the barista is not empty and assigns it to the instance variable self.name
 # ensures emails entered follow a defulat format, declines it if the email deviates from the format
