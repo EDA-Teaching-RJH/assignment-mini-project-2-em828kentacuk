@@ -1,3 +1,5 @@
+#start with our imports
+
 import pytest
 import csv
 from project2 import (
@@ -73,6 +75,8 @@ class TestFileOperations:
         save_barista(barista, file)
         baristas = load_baristas(file)
 
+# asserts that the loaded barista has the same attributes as the original barista and is of the correct class type.
+
         assert len(baristas) == 1
         assert baristas[0].name == "Eve"
         assert baristas[0].email == "eve@gmail.com"
@@ -81,7 +85,8 @@ class TestFileOperations:
 
     def test_save_and_load_manager(self, tmp_path):
         file = tmp_path / "managers.csv"
-
+# repeats the same process for a manager, ensuring that the manager's name is correctly saved and loaded, 
+# and that the loaded object is of the correct class type.
         manager = Manager("Frank")
 
         save_manager(manager, file)
@@ -101,8 +106,9 @@ class TestFileOperations:
 
     # Only 2 workers
         with open(workers_file, "w") as f:
-            f.write("A,Novice,10\n")
-            f.write("B,Novice,10\n")
+            f.write("john,Novice,12.5\n")
+            f.write("jane,Novice,12.5\n")
 
         with pytest.raises(ValueError):
             assign_shifts(staff_file, workers_file)
+    

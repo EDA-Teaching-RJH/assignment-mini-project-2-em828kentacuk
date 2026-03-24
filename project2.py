@@ -3,6 +3,7 @@ import os
 import sys
 import random
 import csv
+import requests
 
 
 # imports all the functions from the other files
@@ -10,7 +11,10 @@ import csv
 class Barista:
 
     def __init__(self, name, email=None, tel=None):
-
+# ensures that the name of the barista is not empty and assigns it to the instance variable self.name
+# ensures emails entered follow a defulat format, declines it if the email deviates from the format
+# ensures that the telephone number follows a specific format (starting with +44 or 0 followed by 7 and then 9 digits),
+# and raises a ValueError if the format is incorrect or if the telephone number is empty
         if not name:
             raise ValueError("Name cannot be empty")
         self.name = name
@@ -63,7 +67,8 @@ class Manager:
         return self.pay
 
 #this function is to save the information to a csv file called workers.csv.
-# saves the name and rank of the barista
+# saves the name and rank of the barista to csv based on input from the user and the pay for that rank
+
 def save_barista(barista, file_path="workers.csv"):
     with open(file_path, "a", newline='') as file:
         writer = csv.writer(file)
@@ -84,10 +89,17 @@ def load_baristas(file_path="workers.csv"):
         print("Baristas in the system:")
         print("-----------------------")
 
+#creates empty list called baristas to store the barista objects that will be created from the data in the csv file
+# it then reads the data from the csv file and creates barista objects 
+# based on the level of the barista (Novice, Intermediate, Expert)
+
         for row in reader:
             if len(row) >= 5:
                 name, level, pay, email, tel = row
-
+# checks row length to ensure that it contains the expected number of columns (at least 5) 
+# before attempting to unpack the values into variables
+# it then uses if elif statements to check the level of the barista 
+# creates an object of the correct class type based on that level
                 if level == "Novice":
                     barista = Novice(name, email, tel)
                 elif level == "Intermediate":
@@ -126,6 +138,7 @@ def load_managers(file_path="staff.csv"):
 
             print(f"Name = {name}  Pay = £{pay}/hr")
     return managers
+
 # this assigns shifts every time the function is called
 # it starts by inilialising empty lists for workers and staff and a variable for cost
 
@@ -133,7 +146,7 @@ def assign_shifts(staff_file="staff.csv", workers_file="workers.csv"):
     workers = []
     staff = []
     cost = 0
-# it then opens the respective csv files, reads the data and appends it to the empty 
+# it then opens the staff csv file, reads the data and appends it to the empty 
 # lists with the name and pay of each employee
 
     with open(staff_file, "r") as file:
@@ -143,7 +156,8 @@ def assign_shifts(staff_file="staff.csv", workers_file="workers.csv"):
                 staff.append({
                     "name": row[0]
                 })
-
+# repeats the same process for the workers file, 
+# but also includes the pay for each worker as well as their name
     with open(workers_file, "r") as file:
         reader = csv.reader(file)
         for row in reader:
@@ -179,9 +193,6 @@ def assign_shifts(staff_file="staff.csv", workers_file="workers.csv"):
     for baristas in selected_employees:
         print(f"- {baristas['name']}")
     
-    
-
-
 
 
 
@@ -209,8 +220,12 @@ if argument == "add":
         name = input("Enter the barista's name: ")
         email = input("Enter the barista's email: ")
         tel = input("Enter the barista's telephone number: ")
+# asks inputs for the name, email and telephone number of the barista and then creates 
+# a new barista object with the given information
         barista = Barista(name, email, tel)
         level = input("Enter the barista's level (Novice, Intermediate, Expert): ").lower().strip()
+# asks user for level, then uses if elif statements to check the level 
+# create a barista object of the correct class type based on the level entered by the user
         if level == "novice":
             barista = Novice(name, email, tel)
         elif level == "intermediate":
@@ -220,10 +235,13 @@ if argument == "add":
         else:
             print("Invalid level. Please enter Novice, Intermediate, or Expert.")
             sys.exit()
+#gracefully handles the case where the user enters an invalid level by printing an error message and exiting the program
         save_barista(barista)
         print(f"Barista {name} added successfully.")
 elif argument == "list":
     load_baristas()
+#calls the load_baristas function to display the list of baristas when the user enters the "list" argument
+# now repeats the same process for managers
 elif argument == "addm":
     name = input("Enter manager name: ")
     save_manager(Manager(name))
