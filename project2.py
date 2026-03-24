@@ -254,6 +254,8 @@ elif argument == "shifts":
 
 
 
+# Runs main() only when the file is executed directly
+# Does not run main() if the file is imported into another script
 
 if __name__ == "__main__":
     main()

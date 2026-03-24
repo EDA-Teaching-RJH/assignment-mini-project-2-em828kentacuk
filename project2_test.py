@@ -8,7 +8,7 @@ from project2 import (
 )
 """
 # HOW TO RUN:
-  python3 -m pytest project2_test.py -v
+    python3 -m pytest project2_test.py -v
 
 # This test function tests the creation of a barista and checks if the attributes are correctly assigned. 
 # also tests the different levels of baristas to ensure they are correctly instantiated as their respective classes.
