@@ -114,6 +114,7 @@ def load_baristas(file_path="workers.csv"):
                 print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}  Telephone: {tel}")
 
     return baristas
+
 #this function is to save the information to a csv file called staff.csv.
 # saves the name and rank of the manager in the same manner as before
 
@@ -178,7 +179,7 @@ def assign_shifts(staff_file="staff.csv", workers_file="workers.csv"):
     selected_employees = random.sample(workers, 4)
     selected_manager = random.choice(staff)
 
-    total_cost = sum(employee["pay"] for employee in selected_employees) + 27.5
+    total_cost = ((sum(employee["pay"] for employee in selected_employees) + 27.5)*4)
 
     shifts = ["Morning", "Afternoon", "Evening"]
     shift = random.choice(shifts)
