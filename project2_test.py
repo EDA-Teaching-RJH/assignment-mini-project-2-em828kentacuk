@@ -71,5 +71,14 @@ class TestFileOperations:
         assert baristas[0].tel == "07123456789"
         assert isinstance(baristas[0], Novice)
 
+    def test_save_and_load_manager(self, tmp_path):
+        file = tmp_path / "managers.csv"
 
-    
+        manager = Manager("Frank")
+
+        save_manager(manager, file)
+        managers = load_managers(file)
+
+        assert len(managers) == 1
+        assert managers[0].name == "Frank"
+        assert isinstance(managers[0], Manager)

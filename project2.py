@@ -105,24 +105,27 @@ def load_baristas(file_path="workers.csv"):
 #this function is to save the information to a csv file called staff.csv.
 # saves the name and rank of the manager in the same manner as before
 
-def save_manager(manager):
-    with open("staff.csv", "a", newline='') as file:
+def save_manager(manager, file_path="staff.csv"):
+    with open(file_path, "a", newline='') as file:
         writer = csv.writer(file)
         writer.writerow([manager.name, manager.get_pay()])
 
 # this repeats the same process for loading baristas but with a new file
 
-def load_managers():
-    with open("staff.csv", "r") as file:
+def load_managers(file_path="staff.csv"):
+    managers = []
+    with open(file_path, "r") as file:
         reader = csv.reader(file)
         print("Managers:")
         print("-----------------------")
         for row in reader:
-            name = row[0]
-            pay = row[1]
+            if len(row) >= 2:
+                name, pay = row
+                manager = Manager(name)
+                managers.append(manager)
 
             print(f"Name = {name}  Pay = £{pay}/hr")
-
+    return managers
 # this assigns shifts every time the function is called
 # it starts by inilialising empty lists for workers and staff and a variable for cost
 
