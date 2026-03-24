@@ -4,12 +4,13 @@ from project2 import (
     Barista, Novice, Intermediate, Expert, Manager, 
     save_barista, load_baristas, save_manager, load_managers, assign_shifts
 )
+"""
 # HOW TO RUN:
-#    python3 -m pytest project2_test.py -v
-
+  python3 -m pytest project2_test.py -v
 
 # This test function tests the creation of a barista and checks if the attributes are correctly assigned. 
 # also tests the different levels of baristas to ensure they are correctly instantiated as their respective classes.
+"""
 class TestBarista:
     def test_barista_creation(self):
         barista = Barista("Alice", "alice@gmail.com", "07123456789")
@@ -43,6 +44,8 @@ class TestBarista:
         with pytest.raises(ValueError):
             Barista(name="Alice", email="alice@gmail.com", tel="0712-345-6789")
 
+
+
 # repeats the same process for the Manager class, 
 # testing the creation of a manager and ensuring that the name attribute is correctly assigned.
 
@@ -55,6 +58,11 @@ class TestManager:
     def test_missing_name(self):
         with pytest.raises(ValueError):
             Manager(name=None)
+
+# this test function checks the file operations for both baristas and managers.
+# It tests the saving and loading of barista and manager data to and from CSV files,
+# ensuring that the data is correctly saved and loaded, 
+# and that the correct types of objects are created when loading the data.
 
 class TestFileOperations:   
     def test_save_and_load_barista(self, tmp_path):
@@ -82,3 +90,19 @@ class TestFileOperations:
         assert len(managers) == 1
         assert managers[0].name == "Frank"
         assert isinstance(managers[0], Manager)
+
+    def test_not_enough_staff(self, tmp_path):
+        staff_file = tmp_path / "staff.csv"
+        workers_file = tmp_path / "workers.csv"
+
+    # No staff
+        with open(staff_file, "w") as f:
+            f.write("")
+
+    # Only 2 workers
+        with open(workers_file, "w") as f:
+            f.write("A,Novice,10\n")
+            f.write("B,Novice,10\n")
+
+        with pytest.raises(ValueError):
+            assign_shifts(staff_file, workers_file)

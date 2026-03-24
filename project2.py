@@ -129,14 +129,14 @@ def load_managers(file_path="staff.csv"):
 # this assigns shifts every time the function is called
 # it starts by inilialising empty lists for workers and staff and a variable for cost
 
-def assign_shifts():
+def assign_shifts(staff_file="staff.csv", workers_file="workers.csv"):
     workers = []
     staff = []
     cost = 0
 # it then opens the respective csv files, reads the data and appends it to the empty 
 # lists with the name and pay of each employee
 
-    with open("staff.csv", "r") as file:
+    with open(staff_file, "r") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 2:
@@ -144,7 +144,7 @@ def assign_shifts():
                     "name": row[0]
                 })
 
-    with open("workers.csv", "r") as file:
+    with open(workers_file, "r") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 3:
@@ -155,7 +155,7 @@ def assign_shifts():
 # validation check to ensure that there are enough staff to assign a shift, if not it raises a ValueError
 # in this case we need at least 4 workers and 1 manager to assign a shift
 
-    if len(workers) < 4 or len(staff) < 1:
+    if len(workers) < 4 and len(staff) < 1:
         raise ValueError("Not enough staff to assign a shift.")
     
 # selects 4 random employees and 1 random manager from their respective lists
