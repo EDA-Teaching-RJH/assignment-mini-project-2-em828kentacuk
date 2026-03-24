@@ -51,7 +51,25 @@ class TestManager:
         manager = Manager("joe")
         assert manager.name == "joe"
     # tests if value error raised id name is missing when creating a manager
-    
+
     def test_missing_name(self):
         with pytest.raises(ValueError):
             Manager(name=None)
+
+class TestFileOperations:   
+    def test_save_and_load_barista(self, tmp_path):
+        file = tmp_path / "workers.csv"
+
+        barista = Novice("Eve", "eve@gmail.com", "07123456789")
+
+        save_barista(barista, file)
+        baristas = load_baristas(file)
+
+        assert len(baristas) == 1
+        assert baristas[0].name == "Eve"
+        assert baristas[0].email == "eve@gmail.com"
+        assert baristas[0].tel == "07123456789"
+        assert isinstance(baristas[0], Novice)
+
+
+    

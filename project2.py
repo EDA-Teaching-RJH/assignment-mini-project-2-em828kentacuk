@@ -64,8 +64,8 @@ class Manager:
 
 #this function is to save the information to a csv file called workers.csv.
 # saves the name and rank of the barista
-def save_barista(barista):
-    with open("workers.csv", "a", newline='') as file:
+def save_barista(barista, file_path="workers.csv"):
+    with open(file_path, "a", newline='') as file:
         writer = csv.writer(file)
         if isinstance(barista, Novice):
             writer.writerow([barista.name, "Novice", barista.get_pay(), barista.email, barista.tel])
@@ -73,25 +73,35 @@ def save_barista(barista):
             writer.writerow([barista.name, "Intermediate", barista.get_pay(), barista.email, barista.tel])
         elif isinstance(barista, Expert):
             writer.writerow([barista.name, "Expert", barista.get_pay(), barista.email, barista.tel])
+    return barista
 
 # this displays the baristas onto the terminal window
 # opens a csv file and outputs the result for every row in the file onto the command line
-def load_baristas():
-    with open("workers.csv", "r") as file:
+def load_baristas(file_path="workers.csv"):
+    baristas = []
+    with open(file_path, "r") as file:
         reader = csv.reader(file)
         print("Baristas in the system:")
         print("-----------------------")
+
         for row in reader:
-            if len(row) >= 3:
-                name = row[0]
-                level = row[1]
-                pay = row[2]
-                email = row[3]
-                tel = row[4]
+            if len(row) >= 5:
+                name, level, pay, email, tel = row
 
- 
-            print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}  Telephone: {tel}")
+                if level == "Novice":
+                    barista = Novice(name, email, tel)
+                elif level == "Intermediate":
+                    barista = Intermediate(name, email, tel)
+                elif level == "Expert":
+                    barista = Expert(name, email, tel)
+                else:
+                    continue
 
+                baristas.append(barista)
+
+                print(f"Name: {name}  Level: {level}  Pay: £{pay}/hr  Email: {email}  Telephone: {tel}")
+
+    return baristas
 #this function is to save the information to a csv file called staff.csv.
 # saves the name and rank of the manager in the same manner as before
 
